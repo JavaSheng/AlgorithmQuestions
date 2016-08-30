@@ -1,0 +1,33 @@
+public class Question1 {
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if(sequence == null)
+            return false;
+        int length = sequence.length;
+        if(length <= 0)
+            return false;
+        
+        return VerifySquenceOfBST(sequence, 0, length - 1);
+    }
+    
+    public boolean VerifySquenceOfBST(int[] sequence, int start, int end){
+        if(start >= end){
+            return true;
+        }
+        
+       	int index = start;      
+        while(index < end - 1 && sequence[index] < sequence[end]){
+            index++;
+        }
+        
+        int right = index;       
+        while(index < end - 1 && sequence[index] > sequence[end]){
+            index++;
+        }
+        
+        if(index != end - 1)
+            return false;
+        index = right;
+        return VerifySquenceOfBST(sequence, start, index - 1) && VerifySquenceOfBST(sequence, index, end - 1);
+        
+    }
+}
