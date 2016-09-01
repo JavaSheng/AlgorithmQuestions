@@ -1,0 +1,29 @@
+/**
+  给一个正整数 n, 找到若干个完全平方数(比如1, 4, 9, ... )使得他们的和等于 n。你需要让平方数的个数最少。
+  给出 n = 12, 返回 3 因为 12 = 4 + 4 + 4。
+  给出 n = 13, 返回 2 因为 13 = 4 + 9。
+**/
+
+public class PerfectSquare{
+    public static void main(String[] args) {
+       Scanner s = new Scanner(System.in);
+       while(s.hasNextInt()){
+    	   System.out.println(PerfectSquare.perfectSquare(s.nextInt()));
+       }
+    }
+    
+    public static int perfectSquare(int n){
+    		int[] dp = new int[n+1];//dp[i]表示和为i所需最少完全平方数
+    		dp[0] = 0;
+
+    		int maxSquare = (int)Math.sqrt(n);//最大平方数
+    		for(int i = 1; i <= n; i++){
+    			p[i] = Integer.MAX_VALUE;
+    			for(int j = 1; j <= maxSquare && j*j <= i; j++){
+    			dp[i] = Math.min(dp[i], dp[i-j*j] + 1);
+    		}
+    	}
+    	
+    	return dp[n];
+    }
+}
