@@ -1,0 +1,97 @@
+/**
+  示例：
+  交换前链表的顺序		交换后链表的顺序
+  4→5→7→1→6   ==>  1→7→5→6→4 
+  1                ==>  1			（链表仅含一个元素)
+  2→1            ==>  1→2  
+  	            ==>				(链表为空)
+  
+  注意点和要求如下:
+  1. swap函数要求对节点的指针/引用进行操作（不得创建任何新的链表节点）
+  2. 不得使用任何库函数/API，如需使用类似功能, 请自行实现
+  3. 不得将链表转化为其他类型数据结构再进行交换，如数组等
+**/
+
+class Node {
+  public Node next;
+  public int value;
+  public Node(int value){
+    this.value = value;
+  }
+}
+public class Main {
+    public static Node swap(Node list){
+    		if(list == null)
+    			return null;  	
+    		Node cur = list;
+    		Node end = list;
+    		//找到链表尾节点
+    		while(end.next != null){
+    			end = end.next;
+    		}
+    		//找到链表第一个奇数，并把之前的偶数依次链到尾节点的后面    	
+    		Node next = null;
+    		Node prev = null;//记录前驱节点
+    	
+    		while(cur.value % 2 == 0 && cur != end){
+    			next = cur.next;
+    			cur.next = end.next;
+    			end.next = cur;
+    			cur = next;
+    		} 	
+    		if(cur == end){//只有一个节点或最后一个节点前无奇数
+    			return cur;
+    		}	
+    	
+    		Node tail = cur;//奇数部分链表尾节点
+    		Node head = null;//链表头结点
+    		while(cur != end){    		
+    			if(cur.value % 2 != 0){//如当前节点为奇数,反转链表
+    				next = cur.next;
+    				cur.next = prev;
+    				prev = cur;
+    				if(next == end){
+        				head = cur;
+        			}
+    				cur = next;
+    			}else{//如为偶数，链接到尾部
+    				next = cur.next;
+    				if(next == end){
+        				head = prev;
+        			}
+    				prev.next = cur.next;
+    				cur.next = end.next;
+    				end.next = cur;	
+    				cur = next;
+    			}
+    		}
+    		if(cur.value % 2 == 0){//末尾数字是偶数，则将奇数链表的尾节点链接与此
+    			tail.next = end;
+    		}else{//末尾为奇数，则链到奇数链表的头结点，并将尾节点链接至第一个偶数节点
+    			tail.next = end.next;
+    			end.next = head;
+    			head = end;
+    		}
+    	
+    		return head; 	
+}
+    
+public static void main(String[] args) { 	
+    		Node node1 = new Node(4);
+    		Node node2 = new Node(5);
+    		Node node3 = new Node(7);
+    		Node node4 = new Node(1);
+    		Node node5 = new Node(6);
+ 
+    		node1.next = node2;
+    		node2.next = node3;
+    		node3.next = node4;
+    		node4.next = node5;
+    
+    		Node node = Main.swap(node1);
+    		while (node != null) {
+        		System.out.println(node.value);
+        		node = node.next;
+    		}
+}
+}
