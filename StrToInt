@@ -1,0 +1,38 @@
+public class StrToInt {
+    public int StrToInt(String str) {
+        if(str == null || str.length() <= 0)
+            return 0;
+        
+        char first = str.charAt(0);        
+        if(first == '-'){
+            return parseNum(str, 1, false);
+        }else if(first == '+'){
+            return parseNum(str,1, true);
+        }else if(first >= '0' && first <= '9'){
+            return parseNum(str, 0, true);
+        }else{
+            return 0;
+        }
+    }
+    
+    private static boolean isDigit(char c){
+        return c >= '0' && c <= '9';
+    }
+    
+    
+    private static int parseNum(String num, int index, boolean positive){
+        int result = 0;
+        
+       	for(int i = index; i < num.length(); i++){
+            if(isDigit(num.charAt(i))){
+                result = result * 10 + num.charAt(i) - '0';
+            }else
+                return 0;
+        }
+        
+        if(positive)
+            return result;
+        else
+            return -result;
+    }
+}
